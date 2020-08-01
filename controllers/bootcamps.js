@@ -5,13 +5,17 @@ const Bootcamp = require('../models/Bootcamp');
 // @desc       Get all bootcamps
 // @routes     GET /api/v1/bootcamps
 // @access     Public
-exports.getBootcamps = asyncHandler(async (req, res, next) => {
-  const bootcamps = await Bootcamp.find();
+exports.getBootcamps = async (req, res, next) => {
+  try {
+    const bootcamps = await Bootcamp.find();
 
-  res
-    .status(200)
-    .json({ success: true, count: bootcamps.length, data: bootcamps });
-});
+    res
+      .status(200)
+      .json({ success: true, count: bootcamps.length, data: bootcamps });
+  } catch (err) {
+    next(err);
+  }
+};
 
 // @desc       Get single bootcamp
 // @routes     GET /api/v1/bootcamps/:id
