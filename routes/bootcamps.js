@@ -20,7 +20,7 @@ router.route('/').get(getBootcamps).post(createBootcamp);
 
 router.route('/radius/:zipcode/:distance').get(getBootcampsInRadius);
 
-router.route(':id/photo').put(bootcampPhotoUpload);
+router.route('/:id/photo').put(bootcampPhotoUpload);
 
 router
   .route('/:id')
