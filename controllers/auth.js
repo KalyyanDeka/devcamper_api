@@ -24,8 +24,6 @@ exports.register = asyncHandler(async (req, res, next) => {
   res.status(200).json({ success: true, token });
 });
 
-/////////////////////////////////////////////////////////////////////////////////////
-
 // @desc       Login user
 // @routes     POST /api/v1/login
 // @access     Public
@@ -61,7 +59,19 @@ exports.login = asyncHandler(async (req, res, next) => {
   res.status(200).json({ success: true, token });
 });
 
-///////////////////////////////////////////////////////////////////////////////////////
+// @desc       Get current logged in user
+// @routes     POST /api/v1/auth/me
+// @access     Private
+exports.getMe = asyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+
+  res.status(200).json({
+    success: true,
+    data: user,
+  });
+});
+
+//////////////////////////////////////////////////////////////////////////////////
 
 // Get token from model, create cookie and send response
 const sendTokenResponse = (user, statusCode, res) => {
@@ -84,17 +94,3 @@ const sendTokenResponse = (user, statusCode, res) => {
     .cookie('token', token, options)
     .json({ success: true, token });
 };
-
-/////////////////////////////////////////////////////////////////////////////////////
-
-// @desc       Get current logged in user
-// @routes     POST /api/v1/auth/me
-// @access     Private
-exports.getMe = asyncHandler(async (req, res, next) => {
-  const user = await User.findById(req.user.id);
-
-  res.status(200).json({
-    success: true,
-    data: user,
-  });
-});
